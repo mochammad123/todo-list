@@ -1,42 +1,45 @@
 import { create } from "zustand";
 import todoApi from "./todoApi";
 
-const useTodoApi = create((set) => ({
-  todos: [],
+const useTransactionApi = create((set) => ({
+  transactions: [],
   isLoading: false,
   error: null,
 
-  getTodos: async () => {
+  getTransactions: async () => {
     set({ isLoading: true });
     try {
-      const response = await todoApi.get("todos");
-      set({ todos: response.data, isLoading: false });
+      const response = await todoApi.get("transactions");
+      set({ transactions: response.data, isLoading: false });
     } catch (error) {
       set({ error: error, isLoading: false });
     }
   },
-  addTodo: async (todoData) => {
+  addTransaction: async () => {
     set({ isLoading: true });
     try {
-      const response = await todoApi.post("todo", todoData);
+      const response = await todoApi.post("transaction");
       set({ isLoading: false });
     } catch (error) {
       set({ error: error, isLoading: false });
     }
   },
-  updateTodo: async (todoId, todoData) => {
+  updateTransaction: async (transactionId, transactionData) => {
     set({ isLoading: true });
     try {
-      const response = await todoApi.post(`todo/${todoId}`, todoData);
+      const response = await todoApi.post(
+        `transaction/${transactionId}`,
+        transactionData
+      );
       set({ isLoading: false });
     } catch (error) {
       set({ error: error, isLoading: false });
     }
   },
-  deleteTodo: async (todoId) => {
+  deleteTransaction: async (transactionId) => {
     set({ isLoading: true });
     try {
-      const response = await todoApi.delete(`todo/${todoId}`);
+      const response = await todoApi.delete(`transaction/${transactionId}`);
       set({ isLoading: false });
     } catch (error) {
       set({ error: error, isLoading: false });
@@ -44,4 +47,4 @@ const useTodoApi = create((set) => ({
   },
 }));
 
-export default useTodoApi;
+export default useTransactionApi;

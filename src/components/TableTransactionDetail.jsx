@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
-import Swal from "sweetalert2";
-import useProductApi from "../apis/useProductApi";
+import useTransactionDetailApi from "../apis/useTransactionDetailApi";
 
-const CardTodo = ({ setItem }) => {
-  const { items, isLoading, error, getItems, deleteItem } = useProductApi();
+const TableTransactionDetail = ({ setItem }) => {
+  const { transactionDetails, isLoading, error, getTransactionDetails } =
+    useTransactionDetailApi();
 
   useEffect(() => {
-    getItems();
+    getTransactionDetails();
   }, []);
 
   return (
     <div>
-      {!items || items == 0 ? (
+      {!transactionDetails || transactionDetails == 0 ? (
         <div className="flex justify-center mt-10">
           <p className="text-white">Data not found</p>
         </div>
-      ) : items && items.data && items.data.length === 0 ? (
+      ) : transactionDetails &&
+        transactionDetails.data &&
+        transactionDetails.data.length === 0 ? (
         <div className="flex justify-center mt-10">
           <p className="text-white">Data not found</p>
         </div>
@@ -26,20 +28,20 @@ const CardTodo = ({ setItem }) => {
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>Transaction</th>
                   <th>Product</th>
-                  <th>Price</th>
-                  <th>Stock</th>
+                  <th>Quality</th>
                 </tr>
               </thead>
-              {items.data.map((item, index) => {
-                const { id, title, price, stock } = item;
+              {transactionDetails.data.map((item, index) => {
+                const { id, transaction_id, item_id, quality } = item;
                 return (
                   <tbody>
                     <tr>
                       <td>1</td>
-                      <td>{title}</td>
-                      <td>{price}</td>
-                      <td>{stock}</td>
+                      <td>{transaction_id}</td>
+                      <td>{item_id}</td>
+                      <td>{quality}</td>
                     </tr>
                   </tbody>
                 );
@@ -52,4 +54,4 @@ const CardTodo = ({ setItem }) => {
   );
 };
 
-export default CardTodo;
+export default TableTransactionDetail;
